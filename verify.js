@@ -7,7 +7,7 @@
   if (!userId) return (status.innerText = "❌ Ungültiger Link: Keine Discord-ID.");
 
   try {
-    const fp = await FingerprintJS.load();
+    const fp = await FingerprintJS.load(); // Jetzt korrekt über globales FingerprintJS
     const result = await fp.get();
     const fingerprint = result.visitorId;
 
