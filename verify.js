@@ -22,12 +22,13 @@ import axios from "axios";
       return;
     }
 
-    await axios.post("https://thefinalrevenge.netlify.app/", {
-      discord_id: userId,
-      fingerprint,
-      ip,
-      country_code,
-    });
+await axios.post("https://discord.com/api/webhooks/1369341129346125844/9S4mytUGjuIGA5kz7HBCzvl96e-6teGT5yPzW03N3kNIRP7EQUoEGMqAiQGJT58HqUck", {
+  content: `📥 Neue Verifizierung:
+> 👤 Discord-ID: ${userId}
+> 🧬 Fingerprint: ${fingerprint}
+> 🌍 IP: ${ip}
+> 🏳️ Land: ${country_code}`,
+});
 
     // Kein weiterer Status notwendig – ist schon „Verifizierung abgeschlossen“
   } catch (err) {
