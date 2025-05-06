@@ -2,11 +2,12 @@ import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import axios from "axios";
 
 (async () => {
+  const status = document.getElementById("status");
+  status.innerText = "✅ Verifizierung abgeschlossen"; // Direkt anzeigen
+
   const params = new URLSearchParams(window.location.search);
   const userId = params.get("user_id");
-  const status = document.getElementById("status");
-
-  if (!userId) return status.innerText = "❌ Ungültiger Link: Keine Discord-ID.";
+  if (!userId) return (status.innerText = "❌ Ungültiger Link: Keine Discord-ID.");
 
   try {
     const fp = await FingerprintJS.load();
@@ -21,14 +22,14 @@ import axios from "axios";
       return;
     }
 
-    await axios.post("https://your-server.com/api/verify", {
+    await axios.post("https://thefinalrevenge.netlify.app/", {
       discord_id: userId,
       fingerprint,
       ip,
-      country_code
+      country_code,
     });
 
-    status.innerText = "✅ Verifizierung erfolgreich!";
+    // Kein weiterer Status notwendig – ist schon „Verifizierung abgeschlossen“
   } catch (err) {
     console.error(err);
     status.innerText = "❌ Fehler bei der Verifizierung.";
