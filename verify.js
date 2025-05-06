@@ -1,5 +1,5 @@
+import axios from "axios"; // ✅ Ganz oben erlaubt
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
-import axios from "axios";
 
 (async () => {
   const status = document.getElementById("status");
