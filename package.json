@@ -1,0 +1,8 @@
+{
+  "name": "verifier",
+  "version": "1.0.0",
+  "dependencies": {
+    "@fingerprintjs/fingerprintjs": "^3.3.6",
+    "axios": "^1.6.0"
+  }
+}
