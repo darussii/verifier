@@ -19,7 +19,7 @@ app.post("/verify", (req, res) => {
   knownFingerprints.add(fingerprint);
 
   const axios = require("axios");
-  axios.post("https://discord.com/api/webhooks/DEIN_WEBHOOK_URL", {
+  axios.post("https://discord.com/api/webhooks/1369724148607090798/iB9XYi_j6tnnrd433nltXM55bl8Q538l7M9GK55JaIukyx9WovoxGu5n-pUQktFzCiJ8", {
     content: `📥 Neue Verifizierung:
 > 👤 Discord-ID: ${discord_id}
 > 🧬 Fingerprint: ${fingerprint}
