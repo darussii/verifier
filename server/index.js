@@ -1,35 +1,40 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
+const { Client, GatewayIntentBits } = require('discord.js');
 
-const app = express();
-app.use(cors());
-app.use(bodyParser.json());
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.MessageContent
+  ]
+});
 
-const PORT = process.env.PORT || 3000;
-const knownFingerprints = new Set();
+// 🔒 HIER DEIN BOT-TOKEN EINSETZEN
+const TOKEN = 'MTM1OTQ2OTc3NzI4NTkzOTM2MA.G8VYnI.MWPKpOaJyD-yNPdQNKHpNtCP1hX_hZiiK82pys';
 
-app.post("/verify", (req, res) => {
-  const { discord_id, fingerprint, ip, country_code } = req.body;
+// Rollen-IDs
+const ROLE_REGELN_ID = '1358529154374439102';
+const ROLE_VERIFIED_ID = '1357627445498478603';
 
-  if (knownFingerprints.has(fingerprint)) {
-    return res.status(409).json({ message: "⚠️ Fingerprint wurde bereits verwendet." });
+client.once('ready', () => {
+  console.log(`✅ Bot ist eingeloggt als ${client.user.tag}`);
+});
+
+client.on('interactionCreate', async interaction => {
+  if (!interaction.isButton()) return;
+
+  const member = interaction.guild.members.cache.get(interaction.user.id);
+  if (!member) return;
+
+  if (interaction.customId === 'regeln_akzeptiert') {
+    await member.roles.add(ROLE_REGELN_ID);
+    await interaction.reply({ content: '✅ Du hast die Regeln akzeptiert.', ephemeral: true });
   }
 
-  knownFingerprints.add(fingerprint);
-
-  const axios = require("axios");
-  axios.post("https://discord.com/api/webhooks/1369724148607090798/iB9XYi_j6tnnrd433nltXM55bl8Q538l7M9GK55JaIukyx9WovoxGu5n-pUQktFzCiJ8", {
-    content: `📥 Neue Verifizierung:
-> 👤 Discord-ID: ${discord_id}
-> 🧬 Fingerprint: ${fingerprint}
-> 🌍 IP: ${ip}
-> 🏳️ Land: ${country_code}`,
-  });
-
-  res.json({ message: "✅ Verifizierung erfolgreich" });
+  if (interaction.customId === 'verifiziert') {
+    await member.roles.add(ROLE_VERIFIED_ID);
+    await interaction.reply({ content: '🆔 Du wurdest erfolgreich verifiziert.', ephemeral: true });
+  }
 });
 
-app.listen(PORT, () => {
-  console.log(`✅ Server läuft auf Port ${PORT}`);
-});
+client.login(TOKEN);
