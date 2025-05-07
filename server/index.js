@@ -9,8 +9,8 @@ const client = new Client({
   ]
 });
 
-// 🔒 HIER DEIN BOT-TOKEN EINSETZEN
-const TOKEN = "MTM1OTQ2OTc3NzI4NTkzOTM2MA.GS1UAJ.gFe2KH73ZY1kQyYI043QUNNOug4oNi42VZX_7Y";
+// ⛔ KEIN TOKEN im Code! Hole ihn aus den Umgebungsvariablen
+const TOKEN = process.env.TOKEN;
 
 // Rollen-IDs
 const ROLE_REGELN_ID = '1358529154374439102';
