@@ -5,7 +5,10 @@
   const params = new URLSearchParams(window.location.search);
   const userId = params.get("user_id");
 
-  if (!userId) return (status.innerText = "❌ Ungültiger Link!");
+  if (!userId) {
+    status.innerText = "❌ Ungültiger Link – keine Discord-ID.";
+    return;
+  }
 
   try {
     const fp = await FingerprintJS.load();
@@ -15,13 +18,13 @@
     const fullFingerprint = {
       visitorId: result.visitorId,
       userId,
-      platform: components.platform?.value,
-      userAgent: components.userAgent?.value,
+      platform: components.platform?.value || "unbekannt",
+      userAgent: components.userAgent?.value || "unbekannt",
       screenRes: `${screen.width}x${screen.height}`,
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     };
 
-    const res = await axios.post("https://thefinalrevenge.netlify.app/:8131/verify", fullFingerprint);
+    const res = await axios.post("/.netlify/functions/verify", fullFingerprint);
 
     status.innerText = res.data.message || "✅ Verifizierung abgeschlossen!";
   } catch (err) {
