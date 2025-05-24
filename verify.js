@@ -21,7 +21,7 @@
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     };
 
-    const res = await axios.post("http://<DEINE_SERVER_IP_ODER_DOMAIN>:8131/verify", fullFingerprint);
+    const res = await axios.post("https://thefinalrevenge.netlify.app/:8131/verify", fullFingerprint);
 
     status.innerText = res.data.message || "✅ Verifizierung abgeschlossen!";
   } catch (err) {
